@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Your Perfect Tequila</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-card: #ffffff;
+            --accent: #c9a227;
+            --accent-light: #e8c547;
+            --accent-dark: #8a7119;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6c757d;
+            --text-muted: #adb5bd;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 520px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        .progress-container {
+            background: #e9ecef;
+            border-radius: 50px;
+            height: 6px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-dark), var(--accent));
+            border-radius: 50px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 40px 36px;
+            box-shadow: var(--shadow-md);
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .question-number {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background: var(--bg-primary);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            text-align: left;
+            position: relative;
+        }
+
+        .option:hover {
+            background: var(--bg-card);
+            border-color: var(--accent);
+            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            transform: translateY(-2px);
+        }
+
+        .option:active {
+            transform: scale(0.98);
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 48px 36px;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 24px;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .result-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 36px;
+            padding: 24px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+        }
+
+        .cocktail-section {
+            padding-top: 32px;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .cocktail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .cocktail-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+
+        .btn-retry {
+            background: var(--text-primary);
+            border: none;
+            color: #ffffff;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-retry:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 162, 39, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .question-card, .result-card {
+                padding: 32px 24px;
+            }
+            .question-text {
+                font-size: 1.1rem;
+            }
+            .result-title {
+                font-size: 1.6rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tequila Match</h1>
+            <p>Discover your perfect pour</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div id="quizContainer">
+            <div class="question-card" id="questionCard">
+                <div class="question-number" id="questionNumber">Question 1 of 6</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="options"></div>
+            </div>
+        </div>
+
+        <div class="result-card hidden" id="resultCard">
+            <div class="result-badge">Your Tequila Match</div>
+            <h2 class="result-title" id="resultTitle"></h2>
+            <p class="result-description" id="resultDescription"></p>
+            
+            <div class="cocktail-section">
+                <p class="cocktail-label">Recommended Way to Enjoy</p>
+                <h3 class="cocktail-name" id="cocktailName"></h3>
+                <button class="btn-retry" id="retryBtn">Take Quiz Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which flavor profile appeals to you the most?",
+                options: [
+                    { text: "Bright, crisp, and refreshing", type: "blanco" },
+                    { text: "Smooth, balanced, and lightly warm", type: "reposado" },
+                    { text: "Rich, round, and layered", type: "anejo" },
+                    { text: "Deep, bold, and luxurious", type: "extra-anejo" }
+                ]
+            },
+            {
+                question: "Which aromas do you enjoy most in a spirit?",
+                options: [
+                    { text: "Citrus, herbs, and fresh agave", type: "blanco" },
+                    { text: "Vanilla, light spice, and soft oak", type: "reposado" },
+                    { text: "Caramel, toasted oak, and baking spice", type: "anejo" },
+                    { text: "Dark chocolate, dried fruit, oak, and toffee", type: "extra-anejo" }
+                ]
+            },
+            {
+                question: "How do you usually enjoy premium spirits?",
+                options: [
+                    { text: "In fresh, vibrant cocktails", type: "blanco" },
+                    { text: "On the rocks or in simple serves", type: "reposado" },
+                    { text: "Sipped slowly and enjoyed neat", type: "anejo" },
+                    { text: "Neat, in a more elevated and special setting", type: "extra-anejo" }
+                ]
+            },
+            {
+                question: "What kind of experience are you looking for?",
+                options: [
+                    { text: "Energetic and refreshing", type: "blanco" },
+                    { text: "Smooth and versatile", type: "reposado" },
+                    { text: "Refined and complex", type: "anejo" },
+                    { text: "Deep, memorable, and indulgent", type: "extra-anejo" }
+                ]
+            },
+            {
+                question: "Which occasion sounds most like you?",
+                options: [
+                    { text: "A lively brunch, rooftop, or sunny afternoon", type: "blanco" },
+                    { text: "A dinner with friends or an easygoing evening", type: "reposado" },
+                    { text: "A refined night out or intimate dinner", type: "anejo" },
+                    { text: "A celebration, nightcap, or luxury moment", type: "extra-anejo" }
+                ]
+            },
+            {
+                question: "Which finish do you prefer?",
+                options: [
+                    { text: "Clean and crisp", type: "blanco" },
+                    { text: "Smooth and mellow", type: "reposado" },
+                    { text: "Long and warming", type: "anejo" },
+                    { text: "Rich and lingering", type: "extra-anejo" }
+                ]
+            }
+        ];
+
+        const results = {
+            blanco: {
+                title: "Tequila Blanco",
+                description: "Fresh, bright, and vibrant. You enjoy clean agave character with lively citrus, herbal notes, and a crisp finish."
+            },
+            reposado: {
+                title: "Tequila Reposado",
+                description: "Smooth, balanced, and versatile. You appreciate a tequila with softness, gentle oak influence, and a warm, approachable profile."
+            },
+            anejo: {
+                title: "Tequila Añejo",
+                description: "Rich, elegant, and layered. You are drawn to deeper flavors like vanilla, caramel, spice, and oak with a refined finish."
+            },
+            "extra-anejo": {
+                title: "Tequila Extra Añejo",
+                description: "Bold, luxurious, and complex. You prefer intense depth, richness, and a slow sipping experience with long, sophisticated character."
+            }
+        };
+
+        const cocktails = {
+            blanco: ["Margarita", "Paloma", "Ranch Water"],
+            reposado: ["Reposado Paloma", "Tequila Sour", "Tequila Mule"],
+            anejo: ["Tequila Old Fashioned", "Añejo Manhattan-style serve", "Neat or on a large ice cube"],
+            "extra-anejo": ["Neat in a sipping glass", "Extra Añejo Old Fashioned", "Luxury after-dinner serve"]
+        };
+
+        let currentQuestion = 0;
+        let scores = {
+            blanco: 0,
+            reposado: 0,
+            anejo: 0,
+            "extra-anejo": 0
+        };
+
+        function updateProgress() {
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            document.getElementById('questionText').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.textContent = option.text;
+                button.onclick = () => selectOption(option.type);
+                optionsContainer.appendChild(button);
+            });
+            
+            updateProgress();
+        }
+
+        function selectOption(type) {
+            scores[type]++;
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const maxScore = Math.max(...Object.values(scores));
+            const winner = Object.keys(scores).find(key => scores[key] === maxScore);
+            const result = results[winner];
+            const availableCocktails = cocktails[winner];
+            const randomCocktail = availableCocktails[Math.floor(Math.random() * availableCocktails.length)];
+            
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultCard').classList.remove('hidden');
+            
+            document.getElementById('resultTitle').textContent = result.title;
+            document.getElementById('resultDescription').textContent = result.description;
+            document.getElementById('cocktailName').textContent = randomCocktail;
+            
+            window.currentResult = winner;
+            window.availableCocktails = availableCocktails;
+        }
+
+        document.getElementById('retryBtn').addEventListener('click', function() {
+            currentQuestion = 0;
+            scores = {
+                blanco: 0,
+                reposado: 0,
+                anejo: 0,
+                "extra-anejo": 0
+            };
+            document.getElementById('resultCard').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            showQuestion();
+        });
+
+        showQuestion();
+    </script>
+</body>
+</html>
